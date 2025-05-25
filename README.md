@@ -41,3 +41,9 @@ To use this utility, you need to install the [Go Programming Language](https://g
 4. **Select a patch**: The program lists available patches from the `enabled_patchfiles` directory. Enter the number corresponding to the desired patch.
 5. **Apply patches**: The utility verifies the target file’s checksum, creates a backup, and applies the patches.
 6. **Revert patches**: To undo changes, run the executable again. If the target file's checksum indicates it has been patched, the utility will restore the original file from the backup.
+
+## Clients
+
+### Euroscope
+
+See the [Euroscope Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/Euroscope).
