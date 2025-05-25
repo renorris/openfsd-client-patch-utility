@@ -41,6 +41,10 @@ section_overwrite_patches:
     section: .text
     section_address: 0x14006BE14
     new_bytes: [40] # <-- This must match the length of the new fsd-jwt URL
+  - name: Break fsd.vatsim.net
+    section: .idata
+    section_address: 0x141CBF240
+    new_bytes: [0x66, 0x6F, 0x6F]
 
 section_padded_string_patches:
   - name: Write new status.json URL
