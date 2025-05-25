@@ -29,10 +29,18 @@ section_overwrite_patches:
     section: .text
     section_address: 0x140035BFE
     new_bytes: [0x2A, 0x0A, 0xA6, 0x01]
+  - name: Overwrite fsd-jwt length (sub_140035A50)
+    section: .text
+    section_address: 0x140035C0A
+    new_bytes: [40] # <-- This must match the length of the new fsd-jwt URL
   - name: Overwrite fsd-jwt LEA RIP (sub_14006BC60)
     section: .text
     section_address: 0x14006BE08
     new_bytes: [0x20, 0xA8, 0xA2, 0x01]
+  - name: Overwrite fsd-jwt length (sub_14006BC60)
+    section: .text
+    section_address: 0x14006BE14
+    new_bytes: [40] # <-- This must match the length of the new fsd-jwt URL
 
 section_padded_string_patches:
   - name: Write new status.json URL
