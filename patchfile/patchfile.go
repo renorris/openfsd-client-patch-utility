@@ -45,6 +45,7 @@ type SectionPaddedStringPatch struct {
 	SectionAddress int64  `yaml:"section_address"`
 	TotalLength    int64  `yaml:"total_length"`
 	NewString      string `yaml:"new_string"`
+	Encoding       string `yaml:"encoding"`
 }
 
 func UnmarshalPatchFile(file io.Reader) (patchFile *PatchFile, err error) {

@@ -1,0 +1,49 @@
+name: Default Patchfile for xPilot 3.0.1
+
+expected_sum: 1ae61e1d4a624751124a49cd992c90f948c31d37
+expected_location: 'C:\Program Files\xPilot\xPilot.exe'
+
+type: win_x86
+
+sections:
+  - name: .text
+    raw_offset: 0x400
+    virtual_start: 0x140001000
+  - name: .idata
+    raw_offset: 0x01A5A200
+    virtual_start: 0x141A5B000
+  - name: .data
+    raw_offset: 0x027F9000
+    virtual_start: 0x1427FA000
+
+section_overwrite_patches:
+  - name: Overwrite status.json LEA RIP
+    section: .text
+    section_address: 0x140028D0E
+    new_bytes: [0x9C, 0x68, 0xA8, 0x01]
+  - name: Overwrite status.json length
+    section: .text
+    section_address: 0x140028D07
+    new_bytes: [49] # <-- This must match the length of the new status.json URL
+  - name: Overwrite fsd-jwt LEA RIP (sub_140035A50)
+    section: .text
+    section_address: 0x140035BFE
+    new_bytes: [0x2A, 0x0A, 0xA6, 0x01]
+  - name: Overwrite fsd-jwt LEA RIP (sub_14006BC60)
+    section: .text
+    section_address: 0x14006BE08
+    new_bytes: [0x20, 0xA8, 0xA2, 0x01]
+
+section_padded_string_patches:
+  - name: Write new status.json URL
+    section: .idata
+    section_address: 0x141AAF5AE
+    total_length: 0x3B5
+    new_string: https://yourfsdserver.com/api/v1/data/status.json
+    encoding: utf8
+  - name: Write new fsd-jwt URL
+    section: .idata
+    section_address: 0x141A9662C
+    total_length: 0x3B4
+    new_string: https://yourfsdserver.com/api/v1/fsd-jwt
+    encoding: utf16le

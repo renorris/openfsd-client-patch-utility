@@ -29,3 +29,4 @@ section_padded_string_patches:
     section_address: 0x65DE58
     total_length: 0x76
     new_string: https://yourfsdserver.com/api/v1/fsd-jwt
+    encoding: utf8

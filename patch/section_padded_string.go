@@ -1,9 +1,11 @@
 package patch
 
 import (
+	"encoding/binary"
 	"fmt"
 	"github.com/renorris/openfsd-client-patch-utility/patchfile"
 	"os"
+	"unicode/utf16"
 )
 
 type SectionPaddedStringPatch struct {
@@ -21,7 +23,18 @@ func (p *SectionPaddedStringPatch) Run(file *os.File) (err error) {
 		return
 	}
 
-	if int64(len(p.patch.NewString)) > p.patch.TotalLength {
+	var strVal string
+	switch p.patch.Encoding {
+	case "utf8":
+		strVal = p.patch.NewString
+	case "utf16le":
+		strVal = string(encodeUTF16LE(p.patch.NewString))
+	default:
+		err = fmt.Errorf("unknown encoding: %s", p.patch.Encoding)
+		return
+	}
+
+	if int64(len(strVal)) > p.patch.TotalLength {
 		err = fmt.Errorf("new string cannot exceed total length (%d > %d)", len(p.patch.NewString), p.patch.TotalLength)
 		return
 	}
@@ -32,11 +45,11 @@ func (p *SectionPaddedStringPatch) Run(file *os.File) (err error) {
 		return
 	}
 
-	if _, err = file.WriteString(p.patch.NewString); err != nil {
+	if _, err = file.WriteString(strVal); err != nil {
 		return
 	}
 
-	zeroesToPad := p.patch.TotalLength - int64(len(p.patch.NewString))
+	zeroesToPad := p.patch.TotalLength - int64(len(strVal))
 	var zeroes []byte
 	for range zeroesToPad {
 		zeroes = append(zeroes, 0x00)
@@ -51,4 +64,17 @@ func (p *SectionPaddedStringPatch) Run(file *os.File) (err error) {
 
 func (p *SectionPaddedStringPatch) Name() string {
 	return p.patch.Name
+}
+
+func encodeUTF16LE(s string) []byte {
+	runes := []rune(s)
+	utf16Values := utf16.Encode(runes)
+
+	buf := make([]byte, len(utf16Values)*2)
+	for i, r := range utf16Values {
+		binary.LittleEndian.PutUint16(buf[i*2:], r)
+	}
+	buf = append(buf, 0x00, 0x00) // Append null terminator
+	
+	return buf
 }
