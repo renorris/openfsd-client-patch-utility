@@ -4,10 +4,10 @@ Patch utility for flight simulation clients enabling custom FSD server compatibi
 
 Currently provided patchfiles:
 
-| Client | Sum | 
-| - | - |
+| Client          | Sum                                                           | 
+|-----------------|---------------------------------------------------------------|
 | Euroscope 3.2.9 | Euroscope.exe SHA1 `dfb1caf3d73e897b2a04964dc35867b4059bc537` |
-| xPilot 3.0.1 (EXPERIMENTAL) | xPilot.exe SHA1 `1ae61e1d4a624751124a49cd992c90f948c31d37` |
+| xPilot 3.0.1    | xPilot.exe SHA1 `1ae61e1d4a624751124a49cd992c90f948c31d37`    |
 
 ## Features:
 
@@ -47,3 +47,7 @@ To use this utility, you need to install the [Go Programming Language](https://g
 ### Euroscope
 
 See the [Euroscope Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/Euroscope).
+
+### xPilot
+
+See the [xPilot Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot).
