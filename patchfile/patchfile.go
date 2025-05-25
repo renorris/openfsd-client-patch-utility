@@ -43,7 +43,7 @@ type SectionPaddedStringPatch struct {
 	Name           string `yaml:"name"`
 	Section        string `yaml:"section"`
 	SectionAddress int64  `yaml:"section_address"`
-	TotalLength    int64  `yaml:"total_length"`
+	AvailableBytes int64  `yaml:"available_bytes"`
 	NewString      string `yaml:"new_string"`
 	Encoding       string `yaml:"encoding"`
 }

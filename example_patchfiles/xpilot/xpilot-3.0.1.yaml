@@ -46,12 +46,12 @@ section_padded_string_patches:
   - name: Write new status.json URL
     section: .idata
     section_address: 0x141AAF5AE
-    total_length: 0x3B5
+    available_bytes: 0x3B5
     new_string: https://yourfsdserver.com/api/v1/data/status.json
     encoding: utf8
   - name: Write new fsd-jwt URL
     section: .idata
     section_address: 0x141A9662C
-    total_length: 0x3B4
+    available_bytes: 0x3B4
     new_string: https://yourfsdserver.com/api/v1/fsd-jwt
     encoding: utf16le

@@ -34,8 +34,8 @@ func (p *SectionPaddedStringPatch) Run(file *os.File) (err error) {
 		return
 	}
 
-	if int64(len(strVal)) > p.patch.TotalLength {
-		err = fmt.Errorf("new string cannot exceed total length (%d > %d)", len(p.patch.NewString), p.patch.TotalLength)
+	if int64(len(strVal)) > p.patch.AvailableBytes {
+		err = fmt.Errorf("new string cannot exceed available bytes (%d > %d)", len(p.patch.NewString), p.patch.AvailableBytes)
 		return
 	}
 
@@ -49,7 +49,7 @@ func (p *SectionPaddedStringPatch) Run(file *os.File) (err error) {
 		return
 	}
 
-	zeroesToPad := p.patch.TotalLength - int64(len(strVal))
+	zeroesToPad := p.patch.AvailableBytes - int64(len(strVal))
 	var zeroes []byte
 	for range zeroesToPad {
 		zeroes = append(zeroes, 0x00)
@@ -75,6 +75,6 @@ func encodeUTF16LE(s string) []byte {
 		binary.LittleEndian.PutUint16(buf[i*2:], r)
 	}
 	buf = append(buf, 0x00, 0x00) // Append null terminator
-	
+
 	return buf
 }
