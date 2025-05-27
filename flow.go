@@ -6,7 +6,6 @@ import (
 	"crypto/sha1"
 	"embed"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"github.com/renorris/openfsd-client-patch-utility/patch"
 	"github.com/renorris/openfsd-client-patch-utility/patchfile"
@@ -135,17 +134,11 @@ func loadPatchfiles(fs embed.FS) (files []*patchfile.PatchFile, err error) {
 }
 
 func extractPatches(patchFile *patchfile.PatchFile) (patches []patch.Patch, err error) {
-	switch patchFile.Type {
-	case "win_x86":
-		for _, p := range patchFile.SectionOverwritePatches {
-			patches = append(patches, patch.NewSectionOverwritePatch(patchFile, &p))
-		}
-		for _, p := range patchFile.SectionPaddedStringPatches {
-			patches = append(patches, patch.NewSectionPaddedStringPatch(patchFile, &p))
-		}
-	default:
-		err = errors.New("error: unknown patchfile type")
-		return
+	for _, p := range patchFile.SectionOverwritePatches {
+		patches = append(patches, patch.NewSectionOverwritePatch(patchFile, &p))
+	}
+	for _, p := range patchFile.SectionPaddedStringPatches {
+		patches = append(patches, patch.NewSectionPaddedStringPatch(patchFile, &p))
 	}
 
 	return

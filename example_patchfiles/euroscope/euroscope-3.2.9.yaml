@@ -3,8 +3,6 @@ name: Default Patchfile for Euroscope 3.2.9
 expected_sum: dfb1caf3d73e897b2a04964dc35867b4059bc537
 expected_location: 'C:\Program Files (x86)\Euroscope\Euroscope.exe'
 
-type: win_x86
-
 sections:
   - name: section1
     raw_offset: 0x400

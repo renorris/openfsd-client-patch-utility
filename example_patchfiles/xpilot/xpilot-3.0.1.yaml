@@ -3,8 +3,6 @@ name: Default Patchfile for xPilot 3.0.1
 expected_sum: 1ae61e1d4a624751124a49cd992c90f948c31d37
 expected_location: 'C:\Program Files\xPilot\xPilot.exe'
 
-type: win_x86
-
 sections:
   - name: .text
     raw_offset: 0x400
