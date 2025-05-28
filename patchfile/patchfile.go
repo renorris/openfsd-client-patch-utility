@@ -18,7 +18,7 @@ type PatchFile struct {
 	Sections                   []Section                  `yaml:"sections"`
 	SectionOverwritePatches    []SectionOverwritePatch    `yaml:"section_overwrite_patches"`
 	SectionPaddedStringPatches []SectionPaddedStringPatch `yaml:"section_padded_string_patches"`
-	DotnetUserstringPatches    []DotnetUserstringPatch    `yaml:"dotnet_userstring_patches"`
+	CilUserstringPatches       []CilUserstringPatch       `yaml:"cil_userstring_patches"`
 	VPilotConfigPatch          *VPilotConfigPatch         `yaml:"vpilot_config_patch"`
 }
 
@@ -52,10 +52,10 @@ type SectionPaddedStringPatch struct {
 	Encoding       string `yaml:"encoding"`
 }
 
-// DotnetUserstringPatch overwrites .NET #US strings according to
+// CilUserstringPatch overwrites .NET #US strings according to
 // https://ecma-international.org/wp-content/uploads/ECMA-335_6th_edition_june_2012.pdf
 // II.24.2.4 #US and #Blob heaps.
-type DotnetUserstringPatch struct {
+type CilUserstringPatch struct {
 	Name           string `yaml:"name"`
 	Section        string `yaml:"section"`
 	SectionAddress int64  `yaml:"section_address"`

@@ -23,7 +23,7 @@ section_overwrite_patches:
     section_address: 0x4BA54
     new_bytes: [0x2A]
 
-dotnet_userstring_patches:
+cil_userstring_patches:
   - name: Write new fsd-jwt URL
     section: userstring-heap
     section_address: 0xD2A2

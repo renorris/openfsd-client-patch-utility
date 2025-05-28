@@ -14,16 +14,16 @@ import (
 
 // Adapted from https://github.com/renorris/vpilot-patch-utility/blob/main/pe/userstring
 
-type DotnetUserstringPatch struct {
+type CilUserstringPatch struct {
 	patchFile *patchfile.PatchFile
-	patch     *patchfile.DotnetUserstringPatch
+	patch     *patchfile.CilUserstringPatch
 }
 
-func NewDotnetUserstringPatch(patchFile *patchfile.PatchFile, patch *patchfile.DotnetUserstringPatch) *DotnetUserstringPatch {
-	return &DotnetUserstringPatch{patchFile, patch}
+func NewCilUserstringPatch(patchFile *patchfile.PatchFile, patch *patchfile.CilUserstringPatch) *CilUserstringPatch {
+	return &CilUserstringPatch{patchFile, patch}
 }
 
-func (p *DotnetUserstringPatch) Run(file *os.File) (err error) {
+func (p *CilUserstringPatch) Run(file *os.File) (err error) {
 	// Verify new string length does not exceed original
 	existingStr, err := p.readString(file)
 	if err != nil {
@@ -44,7 +44,7 @@ func (p *DotnetUserstringPatch) Run(file *os.File) (err error) {
 
 // readString reads a UTF-16 string from the #US heap at the specified
 // file offset, then returns the UTF-8 representation of that string.
-func (p *DotnetUserstringPatch) readString(file *os.File) (str string, err error) {
+func (p *CilUserstringPatch) readString(file *os.File) (str string, err error) {
 	section, err := p.patchFile.GetSection(p.patch.Section)
 	if err != nil {
 		return
@@ -98,7 +98,7 @@ func (p *DotnetUserstringPatch) readString(file *os.File) (str string, err error
 
 // writeString writes a string on the #US heap at the specified
 // file offset using the provided UTF-8 encoded string `str`.
-func (p *DotnetUserstringPatch) writeString(file *os.File, str string) (err error) {
+func (p *CilUserstringPatch) writeString(file *os.File, str string) (err error) {
 	// Convert UTF-8 characters into UTF-16 string
 	encoder := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewEncoder()
 
@@ -175,7 +175,7 @@ func (p *DotnetUserstringPatch) writeString(file *os.File, str string) (err erro
 // decodeLength decodes the length of a #US or #Blob string.
 // https://ecma-international.org/wp-content/uploads/ECMA-335_6th_edition_june_2012.pdf
 // II.24.2.4 #US and #Blob heaps
-func (p *DotnetUserstringPatch) decodeLength(header [4]byte) (length int, headerSize int, err error) {
+func (p *CilUserstringPatch) decodeLength(header [4]byte) (length int, headerSize int, err error) {
 	if header[0]>>7 == 0 {
 		// Length is the 7 LSBs of header[0]
 		length = int(header[0])
@@ -208,7 +208,7 @@ func (p *DotnetUserstringPatch) decodeLength(header [4]byte) (length int, header
 // encodeLength encodes the length of a #US or #Blob string.
 // https://ecma-international.org/wp-content/uploads/ECMA-335_6th_edition_june_2012.pdf
 // II.24.2.4 #US and #Blob heaps
-func (p *DotnetUserstringPatch) encodeLength(length int) (header []byte, err error) {
+func (p *CilUserstringPatch) encodeLength(length int) (header []byte, err error) {
 	if length < 0 {
 		err = errors.New("cannot encode negative length")
 		return
@@ -242,6 +242,6 @@ func (p *DotnetUserstringPatch) encodeLength(length int) (header []byte, err err
 	return
 }
 
-func (p *DotnetUserstringPatch) Name() string {
+func (p *CilUserstringPatch) Name() string {
 	return p.patch.Name
 }
