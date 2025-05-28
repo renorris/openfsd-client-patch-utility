@@ -1,0 +1,41 @@
+name: Default Patchfile for vPilot 3.11.1
+
+expected_sum: 19edcce42b0f9dddc0de0c5cf5c79ed1c7018728
+expected_location: '$HOME_DIR\AppData\Local\vPilot\vPilot.exe'
+
+sections:
+  - name: file
+    raw_offset: 0x00
+    virtual_start: 0x00
+  - name: userstring-heap
+    raw_offset: 0xA17E4
+    virtual_start: 0x00
+
+section_overwrite_patches:
+  - name: Overwrite fsd-jwt ldstr
+    section: file
+    section_address: 0x4B3C5
+    new_bytes: [0x72, 0xA2, 0xD2, 0x00, 0x70]
+  - name: Disable AFV
+    section: file
+    section_address: 0x4BA54
+    new_bytes: [0x2A]
+
+dotnet_userstring_patches:
+  - name: Write new fsd-jwt URL
+    section: userstring-heap
+    section_address: 0xD2A2
+    new_string: https://yourfsdserver.com/api/v1/fsd-jwt
+  - name: Write new startup message
+    section: userstring-heap
+    section_address: 0x1732
+    new_string: 'Patched vPilot {0}'
+  - name: change config notification message
+    section_address: 0x6B9A
+    new_string: "Please update your non-VATSIM CID and password. Would you like to configure them now?"
+
+vpilot_config_patch:
+  network_status_url: https://yourfsdserver.com/api/v1/data/status.txt
+  cached_server_list:
+    - MY-SERVER|myfsdserver.com
+    - MY-SERVER-2|myfsdserver2.com

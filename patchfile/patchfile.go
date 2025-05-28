@@ -5,6 +5,8 @@ import (
 	"github.com/goccy/go-yaml"
 	"io"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type PatchFile struct {
@@ -16,9 +18,10 @@ type PatchFile struct {
 	Sections                   []Section                  `yaml:"sections"`
 	SectionOverwritePatches    []SectionOverwritePatch    `yaml:"section_overwrite_patches"`
 	SectionPaddedStringPatches []SectionPaddedStringPatch `yaml:"section_padded_string_patches"`
+	DotnetUserstringPatches    []DotnetUserstringPatch    `yaml:"section_padded_string_patches"`
 }
 
-// Section defines a binary section like .text or .data
+// Section defines a binary section like .text or .data.
 type Section struct {
 	// Name of the section e.g., .text
 	Name string `yaml:"name"`
@@ -48,12 +51,44 @@ type SectionPaddedStringPatch struct {
 	Encoding       string `yaml:"encoding"`
 }
 
+// DotnetUserstringPatch overwrites .NET #US strings according to
+// https://ecma-international.org/wp-content/uploads/ECMA-335_6th_edition_june_2012.pdf
+// II.24.2.4 #US and #Blob heaps.
+type DotnetUserstringPatch struct {
+	Name           string `yaml:"name"`
+	Section        string `yaml:"section"`
+	SectionAddress int64  `yaml:"section_address"`
+	NewString      string `yaml:"new_string"`
+}
+
+// VPilotConfigPatch patches an obfuscated vPilotConfig.xml file
+type VPilotConfigPatch struct {
+	NetworkStatusURL string   `yaml:"network_status_url"`
+	CachedServerList []string `yaml:"cached_server_list"`
+}
+
 func UnmarshalPatchFile(file io.Reader) (patchFile *PatchFile, err error) {
 	decoder := yaml.NewDecoder(file)
 	patchFile = &PatchFile{}
 	if err = decoder.Decode(patchFile); err != nil {
 		return
 	}
+
+	if patchFile.ExpectedLocation, err = formatPath(patchFile.ExpectedLocation); err != nil {
+		return
+	}
+
+	return
+}
+
+func formatPath(path string) (formattedPath string, err error) {
+	// Replace $HOME_DIR placeholder with user's home directory
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
+	formattedPath = strings.ReplaceAll(path, "$HOME_DIR", homeDir)
+
 	return
 }
 
@@ -74,5 +109,10 @@ func (f *PatchFile) OpenTargetFile() (file *os.File, err error) {
 	if file, err = os.OpenFile(f.ExpectedLocation, os.O_RDWR, 0666); err != nil {
 		return
 	}
+	return
+}
+
+func (f *PatchFile) GetTargetFileDirectory() (dir string) {
+	dir = filepath.Dir(f.ExpectedLocation)
 	return
 }
