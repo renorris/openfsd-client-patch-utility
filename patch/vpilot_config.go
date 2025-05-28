@@ -57,7 +57,7 @@ func (p *VPilotConfigPatch) Run(_ *os.File) (err error) {
 	}
 
 	// Erase file
-	if _, err = file.Seek(0, 0); err != nil {
+	if _, err = file.Seek(0, io.SeekStart); err != nil {
 		return
 	}
 	if err = file.Truncate(0); err != nil {
