@@ -13,7 +13,6 @@ type PatchFile struct {
 	Name             string `yaml:"name"`
 	ExpectedSum      string `yaml:"expected_sum"`
 	ExpectedLocation string `yaml:"expected_location"`
-	Type             string `yaml:"type"`
 
 	Sections                   []Section                  `yaml:"sections"`
 	SectionOverwritePatches    []SectionOverwritePatch    `yaml:"section_overwrite_patches"`
