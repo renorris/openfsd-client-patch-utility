@@ -46,12 +46,12 @@ func (p *VPilotConfigPatch) Run(_ *os.File) (err error) {
 		obfuscatedCachedServerList = append(obfuscatedCachedServerList, string(obfuscatedCachedServer))
 	}
 
-	var fileContents []byte
-	if _, err = io.ReadFull(file, fileContents); err != nil {
+	var fileContents bytes.Buffer
+	if _, err = io.Copy(&fileContents, file); err != nil {
 		return
 	}
 
-	newFileContents, err := p.replaceXmlFields(fileContents, string(obfuscatedNetworkStatusURL), obfuscatedCachedServerList)
+	newFileContents, err := p.replaceXmlFields(fileContents.Bytes(), string(obfuscatedNetworkStatusURL), obfuscatedCachedServerList)
 	if err != nil {
 		return
 	}
