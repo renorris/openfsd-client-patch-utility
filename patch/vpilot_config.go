@@ -23,7 +23,7 @@ func NewVPilotConfigPatch(patchFile *patchfile.PatchFile, patch *patchfile.VPilo
 
 func (p *VPilotConfigPatch) Run(_ *os.File) (err error) {
 	configFilePath := filepath.Join(p.patchFile.GetTargetFileDirectory(), "vPilotConfig.xml")
-	file, err := os.Open(configFilePath)
+	file, err := os.OpenFile(configFilePath, os.O_RDWR, 0666)
 	if err != nil {
 		return
 	}
