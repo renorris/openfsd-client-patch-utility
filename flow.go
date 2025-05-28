@@ -35,7 +35,8 @@ func runFlow(ctx context.Context) {
 	}
 	defer targetFile.Close()
 
-	if ok, err := verifyChecksum(targetFile, patchFile.ExpectedSum); err != nil {
+	var ok bool
+	if ok, err = verifyChecksum(targetFile, patchFile.ExpectedSum); err != nil {
 		fmt.Printf("error validating checksum: %s\n", err.Error())
 		return
 	} else if !ok {
@@ -43,8 +44,35 @@ func runFlow(ctx context.Context) {
 			fmt.Printf("error restoring backup: %s\n\nPlease reinstall your openfsd client.", err.Error())
 			return
 		}
+
+		// Restore backups for secondary files
+		for _, fileName := range patchFile.MakeBackupsFor {
+			var file *os.File
+			if file, err = os.Open(fileName); err != nil {
+				return
+			}
+			if err = restoreBackup(file); err != nil {
+				fmt.Printf("error restoring backup for secondary file: %s\n", err.Error())
+				return
+			}
+			file.Close()
+		}
+
 		fmt.Println("Reverted patches.")
 		return
+	}
+
+	// Make backups for secondary files
+	for _, fileName := range patchFile.MakeBackupsFor {
+		var file *os.File
+		if file, err = os.Open(fileName); err != nil {
+			return
+		}
+		if err = makeBackup(file); err != nil {
+			fmt.Printf("error making backup: %s\n", err.Error())
+			return
+		}
+		file.Close()
 	}
 
 	if err = makeBackup(targetFile); err != nil {

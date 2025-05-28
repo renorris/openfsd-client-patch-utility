@@ -10,9 +10,10 @@ import (
 )
 
 type PatchFile struct {
-	Name             string `yaml:"name"`
-	ExpectedSum      string `yaml:"expected_sum"`
-	ExpectedLocation string `yaml:"expected_location"`
+	Name             string   `yaml:"name"`
+	ExpectedSum      string   `yaml:"expected_sum"`
+	ExpectedLocation string   `yaml:"expected_location"`
+	MakeBackupsFor   []string `yaml:"make_backups_for"`
 
 	Sections                   []Section                  `yaml:"sections"`
 	SectionOverwritePatches    []SectionOverwritePatch    `yaml:"section_overwrite_patches"`
@@ -76,6 +77,12 @@ func UnmarshalPatchFile(file io.Reader) (patchFile *PatchFile, err error) {
 
 	if patchFile.ExpectedLocation, err = formatPath(patchFile.ExpectedLocation); err != nil {
 		return
+	}
+
+	for i := range patchFile.MakeBackupsFor {
+		if patchFile.MakeBackupsFor[i], err = formatPath(patchFile.MakeBackupsFor[i]); err != nil {
+			return
+		}
 	}
 
 	return

@@ -2,6 +2,8 @@ name: Default Patchfile for vPilot 3.11.1
 
 expected_sum: 19edcce42b0f9dddc0de0c5cf5c79ed1c7018728
 expected_location: '$HOME_DIR\AppData\Local\vPilot\vPilot.exe'
+make_backups_for:
+  - '$HOME_DIR\AppData\Local\vPilot\vPilotConfig.xml'
 
 sections:
   - name: file
