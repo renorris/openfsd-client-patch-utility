@@ -219,7 +219,7 @@ func makeBackup(file *os.File) (err error) {
 
 // restoreBackup restores a backup for a given patched file
 func restoreBackup(file *os.File) (err error) {
-	backupFile, err := os.Open(file.Name() + ".orig")
+	backupFile, err := os.OpenFile(file.Name()+".orig", os.O_RDWR, 0666)
 	if err != nil {
 		return
 	}
