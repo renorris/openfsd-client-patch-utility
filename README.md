@@ -14,9 +14,7 @@ Currently provided patchfiles:
 
 - **Arbitrary contiguous binary patching**: Modify specific bytes in the client executable at specific virtual section offsets.
 - **Modify existing strings in binary sections with padding**: Update strings, such as URLs, and pad them with zeroes.
-- **Custom FSD server compatibility**: Patch flight simulation clients to connect to custom FSD servers by updating authentication and status URLs.
-
-**TODO**: This repository will eventually incorporate .NET binary patching found in the [vPilot Patch Utility](https://github.com/renorris/vpilot-patch-utility).
+- **Modify CIL #US strings in compiled .NET binaries**
 
 ## Configuration:
 
