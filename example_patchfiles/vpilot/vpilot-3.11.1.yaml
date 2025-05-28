@@ -31,6 +31,7 @@ dotnet_userstring_patches:
     section_address: 0x1732
     new_string: 'Patched vPilot {0}'
   - name: change config notification message
+    section: userstring-heap
     section_address: 0x6B9A
     new_string: "Please update your non-VATSIM CID and password. Would you like to configure them now?"
 
