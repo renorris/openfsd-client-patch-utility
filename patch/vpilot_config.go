@@ -17,6 +17,10 @@ type VPilotConfigPatch struct {
 	patch     *patchfile.VPilotConfigPatch
 }
 
+func NewVPilotConfigPatch(patchFile *patchfile.PatchFile, patch *patchfile.VPilotConfigPatch) *VPilotConfigPatch {
+	return &VPilotConfigPatch{patchFile, patch}
+}
+
 func (p *VPilotConfigPatch) Run(_ *os.File) (err error) {
 	configFilePath := filepath.Join(p.patchFile.GetTargetFileDirectory(), "vPilotConfig.xml")
 	file, err := os.Open(configFilePath)

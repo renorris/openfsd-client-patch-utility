@@ -140,6 +140,12 @@ func extractPatches(patchFile *patchfile.PatchFile) (patches []patch.Patch, err 
 	for _, p := range patchFile.SectionPaddedStringPatches {
 		patches = append(patches, patch.NewSectionPaddedStringPatch(patchFile, &p))
 	}
+	for _, p := range patchFile.DotnetUserstringPatches {
+		patches = append(patches, patch.NewDotnetUserstringPatch(patchFile, &p))
+	}
+	if patchFile.VPilotConfigPatch != nil {
+		patches = append(patches, patch.NewVPilotConfigPatch(patchFile, patchFile.VPilotConfigPatch))
+	}
 
 	return
 }

@@ -18,7 +18,8 @@ type PatchFile struct {
 	Sections                   []Section                  `yaml:"sections"`
 	SectionOverwritePatches    []SectionOverwritePatch    `yaml:"section_overwrite_patches"`
 	SectionPaddedStringPatches []SectionPaddedStringPatch `yaml:"section_padded_string_patches"`
-	DotnetUserstringPatches    []DotnetUserstringPatch    `yaml:"section_padded_string_patches"`
+	DotnetUserstringPatches    []DotnetUserstringPatch    `yaml:"dotnet_userstring_patches"`
+	VPilotConfigPatch          *VPilotConfigPatch         `yaml:"vpilot_config_patch"`
 }
 
 // Section defines a binary section like .text or .data.

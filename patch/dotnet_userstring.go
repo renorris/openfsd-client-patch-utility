@@ -19,6 +19,10 @@ type DotnetUserstringPatch struct {
 	patch     *patchfile.DotnetUserstringPatch
 }
 
+func NewDotnetUserstringPatch(patchFile *patchfile.PatchFile, patch *patchfile.DotnetUserstringPatch) *DotnetUserstringPatch {
+	return &DotnetUserstringPatch{patchFile, patch}
+}
+
 func (p *DotnetUserstringPatch) Run(file *os.File) (err error) {
 	// Verify new string length does not exceed original
 	existingStr, err := p.readString(file)
