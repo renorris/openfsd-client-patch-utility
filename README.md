@@ -8,6 +8,7 @@ Currently provided patchfiles:
 |-----------------|---------------------------------------------------------------|
 | Euroscope 3.2.9 | Euroscope.exe SHA1 `dfb1caf3d73e897b2a04964dc35867b4059bc537` |
 | xPilot 3.0.1    | xPilot.exe SHA1 `1ae61e1d4a624751124a49cd992c90f948c31d37`    |
+| vPilot 3.11.1   | vPilot.exe SHA1 `19edcce42b0f9dddc0de0c5cf5c79ed1c7018728`    |
 
 ## Features:
 
@@ -51,3 +52,7 @@ See the [Euroscope Wiki](https://github.com/renorris/openfsd-client-patch-utilit
 ### xPilot
 
 See the [xPilot Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot).
+
+### vPilot
+
+See the [vPilot Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot).
