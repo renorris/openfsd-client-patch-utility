@@ -49,6 +49,7 @@ func runFlow(ctx context.Context) {
 		for _, fileName := range patchFile.MakeBackupsFor {
 			var file *os.File
 			if file, err = os.Open(fileName); err != nil {
+				fmt.Printf("error opening secondary file for restoration: %s\n", err.Error())
 				return
 			}
 			if err = restoreBackup(file); err != nil {
