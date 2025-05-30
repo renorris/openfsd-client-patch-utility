@@ -1,0 +1,40 @@
+name: Default Patchfile for vatSys 1.4.19
+
+expected_sum: b8050748bc436ce4b870d95a37a2eeb20532ab30
+expected_location: 'C:\Program Files (x86)\vatSys\bin\vatSys.exe'
+
+sections:
+  - name: file
+    raw_offset: 0x00
+    virtual_start: 0x00
+  - name: userstring-heap
+    raw_offset: 0x12DD4C
+    virtual_start: 0x00
+
+section_overwrite_patches:
+  - name: Overwrite fsd-jwt ldstr
+    section: file
+    section_address: 0x84F94
+    new_bytes: [0x72, 0xA8, 0x18, 0x00, 0x70]
+  - name: Overwrite status.txt ldstr
+    section: file
+    section_address: 0x8BC2E
+    new_bytes: [0x72, 0x84, 0x17, 0x01, 0x70]
+  - name: Overwrite CID length requirement
+    section: file
+    section_address: 0x5E761
+    new_bytes: [0x17]
+  - name: Force server list reload
+    section: file
+    section_address: 0x8451D
+    new_bytes: [0x16]
+
+cil_userstring_patches:
+  - name: Write new fsd-jwt URL
+    section: userstring-heap
+    section_address: 0x0018A8
+    new_string: https://yourfsdserver.com/api/v1/fsd-jwt
+  - name: Write new status.txt URL
+    section: userstring-heap
+    section_address: 0x011784
+    new_string: https://yourfsdserver.com/api/v1/data/status.txt

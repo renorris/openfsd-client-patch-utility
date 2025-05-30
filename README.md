@@ -43,14 +43,9 @@ To use this utility, you need to install the [Go Programming Language](https://g
 
 ## Clients
 
-### Euroscope
+Wiki entires:
 
-See the [Euroscope Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/Euroscope).
-
-### xPilot
-
-See the [xPilot Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot).
-
-### vPilot
-
-See the [vPilot Wiki](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot).
+- [Euroscope](https://github.com/renorris/openfsd-client-patch-utility/wiki/Euroscope)
+- [vatSys](https://github.com/renorris/openfsd-client-patch-utility/wiki/vatSys)
+- [xPilot](https://github.com/renorris/openfsd-client-patch-utility/wiki/xPilot)
+- [vPilot](https://github.com/renorris/openfsd-client-patch-utility/wiki/vPilot)
